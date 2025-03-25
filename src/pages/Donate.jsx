@@ -1,9 +1,11 @@
 import React from 'react'
 
-export default function Event() {
+function Donate() {
   return (
     <div>
-      Event
+      donate
     </div>
   )
 }
+
+export default Donate
