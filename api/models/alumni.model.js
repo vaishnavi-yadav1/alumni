@@ -17,3 +17,6 @@ const alumniSchema= new mongoose.Schema(
     },
     {timestamps:true}
 );
+
+const Alumni=mongoose.model('Alumni',alumniSchema);
+export default Alumni;
