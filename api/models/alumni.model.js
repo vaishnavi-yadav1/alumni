@@ -10,9 +10,9 @@ const alumniSchema= new mongoose.Schema(
         currentJob:{type:String},
         company:{type:String},
         industry:{type:String},
-        linkedin:{type:String},
+       
         experience:{type:Number,required:true},
-        profileImage:{type:String},
+    
 
     },
     {timestamps:true}
