@@ -1,7 +1,7 @@
 import Alumni from "../models/alumni.model.js";
 import bcryptjs from 'bcryptjs'
 
-export const signup = async (req, res) => {
+export const signup = async (req, res,next) => {
   try {
     const { 
       name, 
@@ -36,6 +36,6 @@ export const signup = async (req, res) => {
     await newAlumni.save();
     res.status(201).json("User created successfully!");
   } catch (error) {
-    res.status(500).json(error.message);
+   next(error);
   }
 };
