@@ -79,7 +79,7 @@ const SignIn = () => {
         {error && <p className="text-red-600 text-center mt-2">{error}</p>}
 
         <p className="text-sm text-[#6D4C41] text-center mt-4">
-          Dont have an account? <Link to="/signup" className="text-[#A67B5B] hover:text-[#C8A27C]">Sign up</Link>
+          Do not have an account? <Link to="/signup" className="text-[#A67B5B] hover:text-[#C8A27C]">Sign up</Link>
         </p>
       </div>
     </div>
