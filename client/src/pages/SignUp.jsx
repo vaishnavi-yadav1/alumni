@@ -54,7 +54,7 @@ const SignUp = () => {
       setLoading(false);
     }
   };
-
+ 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#F5ECE1]">
       <div className="bg-white/80 backdrop-blur-lg p-8 rounded-xl shadow-lg w-full max-w-md border border-[#C8A27C]">
