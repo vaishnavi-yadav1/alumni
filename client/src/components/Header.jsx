@@ -1,9 +1,13 @@
 import { FaBars, FaTimes } from "react-icons/fa";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export default function Header() {
+  const { currentAlumni } = useSelector((state) => state.alumni);
   const [menuOpen, setMenuOpen] = useState(false);
+
+  console.log("Avatar URL:", currentAlumni?.avatar); // Debugging log
 
   return (
     <header className="bg-[#B89F8F] shadow-md text-[#3D2B1F]">
@@ -20,7 +24,19 @@ export default function Header() {
           <Link to="/directory" className="hover:text-[#6D4C41] transition">Alumni Directory</Link>
           <Link to="/event" className="hover:text-[#6D4C41] transition">Events</Link>
           <Link to="/donate" className="hover:text-[#6D4C41] transition">Donate</Link>
-          <Link to="/signin" className="hover:text-[#6D4C41] transition">Sign In</Link>
+
+          {currentAlumni ? (
+            <Link to="/profile">
+              <img
+                src={currentAlumni.avatar || "/default-avatar.png"} // Fallback if missing
+                alt="Profile"
+                className="h-10 w-10 rounded-full border-2 object-cover"
+                onError={(e) => (e.target.src = "/default-avatar.png")} // Handle broken image
+              />
+            </Link>
+          ) : (
+            <Link to="/signin" className="hover:text-[#6D4C41] transition">Sign In</Link>
+          )}
         </nav>
 
         {/* Mobile Menu Button */}
@@ -40,11 +56,21 @@ export default function Header() {
           <Link to="/directory" onClick={() => setMenuOpen(false)}>Alumni Directory</Link>
           <Link to="/event" onClick={() => setMenuOpen(false)}>Events</Link>
           <Link to="/donate" onClick={() => setMenuOpen(false)}>Donate</Link>
-          <Link to="/signin" onClick={() => setMenuOpen(false)}>Sign In</Link>
+
+          {currentAlumni ? (
+            <Link to="/profile" onClick={() => setMenuOpen(false)}>
+              <img
+                src={currentAlumni.avatar || "/default-avatar.png"}
+                alt="Profile"
+                className="h-10 w-10 rounded-full border-2 object-cover bg-white shadow-md"
+                onError={(e) => (e.target.src = "/default-avatar.png")} // Handle broken image
+              />
+            </Link>
+          ) : (
+            <Link to="/signin" onClick={() => setMenuOpen(false)}>Sign In</Link>
+          )}
         </nav>
       )}
     </header>
   );
 }
-
-
