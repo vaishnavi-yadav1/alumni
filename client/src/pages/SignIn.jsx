@@ -1,22 +1,16 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
+import { useDispatch,useSelector } from "react-redux";
+import { signInFailure,signInStart,signInSuccess } from "../redux/alumni/alumniSlice.js";
 const SignIn = () => {
   const [formData, setFormData] = useState({
-    name: "",
     email: "",
-    password: "",
-    graduationYear: "",
-    department: "",
-    currentJob: "",
-    company: "",
-    industry: "",
-    experience: "",
+    password: ""
   });
 
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+ const {loading,error}=useSelector((state)=>state.alumni);
   const navigate = useNavigate();
+  const disptach=useDispatch();
 
   // Handle input changes
   const handleChange = (e) => {
@@ -29,8 +23,7 @@ const SignIn = () => {
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    setError(null);
+   disptach(signInStart());
 
     try {
       const res = await fetch("/api/auth/signin", {
@@ -43,15 +36,14 @@ const SignIn = () => {
 
       const data = await res.json();
       if (!res.ok) {
-        throw new Error(data.message || "Signin failed");
+       disptach(signInFailure(data.message));
+       return ;
       }
 
-      
+      disptach(signInSuccess(data));
       navigate("/");
     } catch (error) {
-      setError(error.message);
-    } finally {
-      setLoading(false);
+      disptach(signInFailure(error.message));
     }
   };
  

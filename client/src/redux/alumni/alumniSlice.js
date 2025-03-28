@@ -1,21 +1,21 @@
-import { createSlice } from "@reduxjs/toolkit";
+import {createSlice} from '@reduxjs/toolkit';
 
-const  initialState={
-    currentUser:null,
-    error:null,
+const initialState={
+    currentAlumni:null,
+    error: null,
     loading:false,
-};
+}
 
-const userSlice=createSlice({
+
+const alumniSlice=createSlice({
     name:'alumni',
     initialState,
     reducers:{
         signInStart:(state)=>{
             state.loading=true;
-            state.error = null;
         },
         signInSuccess:(state,action)=>{
-            state.currentUSer=action.payload;
+            state.currentAlumni=action.payload;
             state.loading=false;
             state.error=null;
         },
@@ -24,7 +24,7 @@ const userSlice=createSlice({
             state.loading=false;
         }
     }
-}); 
+});
 
-export const {signInFailure,signInStart,signInSuccess} =userSlice.actions;
-export default userSlice.reducer;
+export const {signInFailure,signInStart,signInSuccess}=alumniSlice.actions;
+export default alumniSlice.reducer;
