@@ -22,9 +22,21 @@ const alumniSlice=createSlice({
         signInFailure:(state,action)=>{
             state.error=action.payload;
             state.loading=false;
-        }
-    }
+        },
+        updateUserStart:(state)=>{
+            state.loading=true;
+        },
+        updateUserSuccess:(state,action)=>{
+            state.currentAlumni=action.payload;
+            state.loading=false;
+            state.error=null;
+        },
+        updateUserFailure:(state,action)=>{
+            state.error=action.payload;
+            state.loading=false;
+        },
+    },
 });
 
-export const {signInFailure,signInStart,signInSuccess}=alumniSlice.actions;
+export const {updateUserFailure,updateUserStart,updateUserSuccess,signInFailure,signInStart,signInSuccess}=alumniSlice.actions;
 export default alumniSlice.reducer;
