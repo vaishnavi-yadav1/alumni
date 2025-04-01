@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { updateUserStart, updateUserSuccess, updateUserFailure } from "../redux/alumni/alumniSlice";
+import { updateUserStart, updateUserSuccess, updateUserFailure, deleteUserFailure, deleteUserStart, deleteUserSuccess } from "../redux/alumni/alumniSlice";
 
 export default function Profile() {
   const fileRef = useRef(null);
@@ -87,7 +87,23 @@ export default function Profile() {
       setUpdateError(error.message || "Something went wrong.");
     }
   };
+  const handleDeleteUser=async()=>{
+try {
+  dispatch(deleteUserStart());
+  const res=await fetch(`/api/user/delete/${currentAlumni._id}`,{
+    method:'Delete',
+  });
+  const data=await res.json();
+  if(data.success===false){
+    dispatch(deleteUserFailure(data.message));
+    return;
 
+ }
+ dispatch(deleteUserSuccess(data)); 
+} catch (error) {
+ dispatch(deleteUserFailure(error.message));
+}
+  };
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-[#F5ECE1] text-[#3D2B1F] p-4">
       <div className="bg-white/80 backdrop-blur-lg p-6 rounded-xl shadow-lg w-full max-w-lg border border-[#C8A27C]">
@@ -155,7 +171,7 @@ export default function Profile() {
 
         {/* Delete & Sign Out Buttons */}
         <div className="flex justify-between mt-6">
-          <button className="text-red-600 font-semibold hover:underline">Delete Account</button>
+          <button onClick={handleDeleteUser} className="text-red-600 font-semibold hover:underline">Delete Account</button>
           <button className="text-red-600 font-semibold hover:underline">Sign Out</button>
         </div>
       </div>
