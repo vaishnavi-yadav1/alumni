@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
- // Import the logout action
 
 export default function Profile() {
+  const fileRef = useRef(null);
   const dispatch = useDispatch();
   const { currentAlumni } = useSelector((state) => state.alumni);
 
@@ -15,26 +15,87 @@ export default function Profile() {
     company: currentAlumni?.company || "",
     industry: currentAlumni?.industry || "",
     experience: currentAlumni?.experience || "",
+    avatar: currentAlumni?.avatar || "", // Ensure avatar updates properly
   });
+
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(""); // NEW: State for error messages
+
+  const handleImageChange = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const imageFormData = new FormData();
+    imageFormData.append("file", file);
+    imageFormData.append("upload_preset", "alumni_project"); // FIXED
+
+    setLoading(true); // Show loading
+    setError(""); // Clear any previous errors
+
+    try {
+      const response = await fetch(
+        "https://api.cloudinary.com/v1_1/dvwmncoxn/image/upload",
+        {
+          method: "POST",
+          body: imageFormData,
+        }
+      );
+
+      const data = await response.json();
+      if (data.secure_url) {
+        setFormData((prev) => ({ ...prev, avatar: data.secure_url }));
+      } else {
+        throw new Error("Failed to upload image. Please try again.");
+      }
+    } catch (error) {
+      console.error("Image Upload Failed:", error);
+      setError(error.message || "Image upload failed. Please try again.");
+    } finally {
+      setLoading(false); // Hide loading
+    }
+  };
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-
-
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-[#F5ECE1] text-[#3D2B1F] p-4">
       <div className="bg-white/80 backdrop-blur-lg p-6 rounded-xl shadow-lg w-full max-w-lg border border-[#C8A27C]">
-        <h2 className="text-3xl font-semibold text-center mb-6 text-[#6D4C41]">Profile</h2>
+        <h2 className="text-3xl font-semibold text-center mb-6 text-[#6D4C41]">
+          Profile
+        </h2>
 
-        {/* Profile Image */}
-        <div className="flex justify-center mb-4">
-          <img
-            src={currentAlumni?.avatar || "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"}
-            alt="Profile"
-            className="h-24 w-24 rounded-full border-2 border-[#6D4C41] object-cover bg-gray-200"
-          />
+        {/* Profile Image Upload */}
+        <input
+          type="file"
+          ref={fileRef}
+          hidden
+          accept="image/*"
+          onChange={handleImageChange}
+        />
+        <div className="flex flex-col items-center mb-4">
+          <div className="relative">
+            {loading && (
+              <div className="absolute inset-0 flex items-center justify-center bg-white/70 rounded-full">
+                <span className="text-[#6D4C41] font-semibold">Uploading...</span>
+              </div>
+            )}
+            <img
+              onClick={() => fileRef.current.click()}
+              src={
+                formData.avatar ||
+                "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+              }
+              alt="Profile"
+              className={`h-24 w-24 rounded-full border-2 border-[#6D4C41] object-cover bg-gray-200 cursor-pointer ${
+                loading ? "opacity-50" : ""
+              }`}
+            />
+          </div>
+
+          {/* Error Message Display */}
+          {error && <p className="text-red-600 mt-2 text-sm">{error}</p>}
         </div>
 
         {/* Profile Form */}
@@ -68,16 +129,10 @@ export default function Profile() {
 
         {/* Delete & Sign Out Buttons */}
         <div className="flex justify-between mt-6">
-          <button
-           
-            className="text-red-600 font-semibold hover:underline"
-          >
+          <button className="text-red-600 font-semibold hover:underline">
             Delete Account
           </button>
-          <button
-           
-            className="text-[#6D4C41] font-semibold hover:underline"
-          >
+          <button className="text-red-600 font-semibold hover:underline">
             Sign Out
           </button>
         </div>
