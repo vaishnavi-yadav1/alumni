@@ -20,6 +20,7 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/contactus" element={<ContactUs />} />
         <Route path="/directory" element={<Directory />} />
+        <Route path="/search" element={<Directory />} />
         <Route path="/event" element={<Event />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />

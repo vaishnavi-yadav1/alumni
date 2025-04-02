@@ -47,8 +47,20 @@ const alumniSlice=createSlice({
             state.error=action.payload;
             state.loading=false;
         },
+        signOutUserStart:(state)=>{
+            state.loading=true;
+        },
+        signOutUserSuccess:(state)=>{
+             state.currentAlumni=null;
+             state.loading=false;
+             state.error=null;
+        },
+        signOutUserFailure:(state,action)=>{
+            state.error=action.payload;
+            state.loading=false;
+        },
     },
 });
 
-export const {deleteUserFailure,deleteUserStart,deleteUserSuccess,  updateUserFailure,updateUserStart,updateUserSuccess,signInFailure,signInStart,signInSuccess}=alumniSlice.actions;
+export const {  signOutUserFailure,signOutUserStart,signOutUserSuccess ,deleteUserFailure,deleteUserStart,deleteUserSuccess,  updateUserFailure,updateUserStart,updateUserSuccess,signInFailure,signInStart,signInSuccess}=alumniSlice.actions;
 export default alumniSlice.reducer;
