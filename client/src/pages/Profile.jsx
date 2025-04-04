@@ -1,11 +1,24 @@
 import { useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { signOutUserFailure,signOutUserStart,signOutUserSuccess,updateUserStart, updateUserSuccess, updateUserFailure, deleteUserFailure, deleteUserStart, deleteUserSuccess } from "../redux/alumni/alumniSlice";
+import {
+  signOutUserFailure,
+  signOutUserStart,
+  signOutUserSuccess,
+  updateUserStart,
+  updateUserSuccess,
+  updateUserFailure,
+  deleteUserFailure,
+  deleteUserStart,
+  deleteUserSuccess,
+} from "../redux/alumni/alumniSlice";
+import { Link } from "react-router-dom";
 
 export default function Profile() {
   const fileRef = useRef(null);
   const dispatch = useDispatch();
-  const { currentAlumni, loading, error } = useSelector((state) => state.alumni);
+  const { currentAlumni, loading, error } = useSelector(
+    (state) => state.alumni
+  );
 
   const [formData, setFormData] = useState({
     name: currentAlumni?.name || "",
@@ -87,54 +100,66 @@ export default function Profile() {
       setUpdateError(error.message || "Something went wrong.");
     }
   };
-  const handleDeleteUser=async()=>{
-try {
-  dispatch(deleteUserStart());
-  const res=await fetch(`/api/user/delete/${currentAlumni._id}`,{
-    method:'Delete',
-  });
-  const data=await res.json();
-  if(data.success===false){
-    dispatch(deleteUserFailure(data.message));
-    return;
-
- }
- dispatch(deleteUserSuccess(data)); 
-} catch (error) {
- dispatch(deleteUserFailure(error.message));
-}
-  };
-  const handleSignOut=async()=>{
-   try {
-    dispatch(signOutUserStart());
-    const res=await fetch('/api/auth/signout');
-    const data=await res.json();
-    if(data.success===false){
-      dispatch(signOutUserFailure(data.message()));
-      return;
+  const handleDeleteUser = async () => {
+    try {
+      dispatch(deleteUserStart());
+      const res = await fetch(`/api/user/delete/${currentAlumni._id}`, {
+        method: "Delete",
+      });
+      const data = await res.json();
+      if (data.success === false) {
+        dispatch(deleteUserFailure(data.message));
+        return;
+      }
+      dispatch(deleteUserSuccess(data));
+    } catch (error) {
+      dispatch(deleteUserFailure(error.message));
     }
-    dispatch(signOutUserSuccess(data));
-   } catch (error) {
-    dispatch(signOutUserFailure(error.message()));
-   }
+  };
+  const handleSignOut = async () => {
+    try {
+      dispatch(signOutUserStart());
+      const res = await fetch("/api/auth/signout");
+      const data = await res.json();
+      if (data.success === false) {
+        dispatch(signOutUserFailure(data.message()));
+        return;
+      }
+      dispatch(signOutUserSuccess(data));
+    } catch (error) {
+      dispatch(signOutUserFailure(error.message()));
+    }
   };
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-[#F5ECE1] text-[#3D2B1F] p-4">
       <div className="bg-white/80 backdrop-blur-lg p-6 rounded-xl shadow-lg w-full max-w-lg border border-[#C8A27C]">
-        <h2 className="text-3xl font-semibold text-center mb-6 text-[#6D4C41]">Profile</h2>
+        <h2 className="text-3xl font-semibold text-center mb-6 text-[#6D4C41]">
+          Profile
+        </h2>
 
         {/* Profile Image Upload */}
-        <input type="file" ref={fileRef} hidden accept="image/*" onChange={handleImageChange} />
+        <input
+          type="file"
+          ref={fileRef}
+          hidden
+          accept="image/*"
+          onChange={handleImageChange}
+        />
         <div className="flex flex-col items-center mb-4">
           <div className="relative">
             {uploading && (
               <div className="absolute inset-0 flex items-center justify-center bg-white/70 rounded-full">
-                <span className="text-[#6D4C41] font-semibold">Uploading...</span>
+                <span className="text-[#6D4C41] font-semibold">
+                  Uploading...
+                </span>
               </div>
             )}
             <img
               onClick={() => fileRef.current.click()}
-              src={formData.avatar || "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"}
+              src={
+                formData.avatar ||
+                "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+              }
               alt="Profile"
               className={`h-24 w-24 rounded-full border-2 border-[#6D4C41] object-cover bg-gray-200 cursor-pointer ${
                 uploading ? "opacity-50" : ""
@@ -143,7 +168,9 @@ try {
           </div>
 
           {/* Error Message for Image Upload */}
-          {updateError && <p className="text-red-600 mt-2 text-sm">{updateError}</p>}
+          {updateError && (
+            <p className="text-red-600 mt-2 text-sm">{updateError}</p>
+          )}
         </div>
 
         {/* Profile Form */}
@@ -151,12 +178,20 @@ try {
           {[
             { name: "name", type: "text", placeholder: "Full Name" },
             { name: "email", type: "text", placeholder: "Email" },
-            { name: "graduationYear", type: "number", placeholder: "Graduation Year" },
+            {
+              name: "graduationYear",
+              type: "number",
+              placeholder: "Graduation Year",
+            },
             { name: "department", type: "text", placeholder: "Department" },
             { name: "currentJob", type: "text", placeholder: "Current Job" },
             { name: "company", type: "text", placeholder: "Company" },
             { name: "industry", type: "text", placeholder: "Industry" },
-            { name: "experience", type: "number", placeholder: "Experience (Years)" },
+            {
+              name: "experience",
+              type: "number",
+              placeholder: "Experience (Years)",
+            },
           ].map((field) => (
             <input
               key={field.name}
@@ -177,6 +212,13 @@ try {
           >
             {loading ? "Updating..." : "Update Profile"}
           </button>
+          {/* Create Job Button */}
+          <Link
+            to="/create-job"
+            className="bg-[#6D4C41] text-white rounded-lg p-3 text-center uppercase hover:bg-[#5C4033] transition"
+          >
+            Create Job
+          </Link>
 
           {/* Success/Error Messages */}
           {error && <p className="text-red-600 mt-2 text-sm">{error}</p>}
@@ -185,8 +227,18 @@ try {
 
         {/* Delete & Sign Out Buttons */}
         <div className="flex justify-between mt-6">
-          <button onClick={handleDeleteUser} className="text-red-600 font-semibold hover:underline">Delete Account</button>
-          <button onClick={handleSignOut} className="text-red-600 font-semibold hover:underline">Sign Out</button>
+          <button
+            onClick={handleDeleteUser}
+            className="text-red-600 font-semibold hover:underline"
+          >
+            Delete Account
+          </button>
+          <button
+            onClick={handleSignOut}
+            className="text-red-600 font-semibold hover:underline"
+          >
+            Sign Out
+          </button>
         </div>
       </div>
     </div>
