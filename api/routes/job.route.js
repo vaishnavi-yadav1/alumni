@@ -1,8 +1,7 @@
-import express from "express";
+import express from 'express';
+import { createPost } from '../controllers/job.controller.js';
 import { verifyToken } from '../utils/verifyAlumni.js';
-import { createJob, getJobs } from "../controllers/job.controller.js";
-const router=express.Router();
-router.post("/post",verifyToken,createJob);
-router.get("/listings",getJobs);
+const router =express.Router();
 
+router.post('/create',verifyToken,createPost);
 export default router;

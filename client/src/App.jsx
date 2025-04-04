@@ -10,6 +10,7 @@ import Event from "./pages/Event.jsx";
 import SignUp from "./pages/SignUp.jsx";
 import Header from "./components/Header.jsx";
 import Donate from "./pages/Donate.jsx";
+import PostJob from "./pages/PostJob.jsx";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
         <Route path="/donate" element={<Donate />} />
         <Route element={<PrivateRoute />}>
           <Route path="/profile" element={<Profile />} />
+          <Route path="/post" element={<PostJob/>}/>
         </Route>
       </Routes>
     </BrowserRouter>
