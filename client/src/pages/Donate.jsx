@@ -1,6 +1,9 @@
 import React from 'react'
+import { useSelector } from 'react-redux';
 
-function Donate() {
+ export default function Donate() {
+   const { currentAlumni } = useSelector(state => state.alumni);
+   console.log(currentAlumni);
   return (
     <div>
       donate
@@ -8,4 +11,3 @@ function Donate() {
   )
 }
 
-export default Donate

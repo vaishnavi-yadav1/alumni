@@ -7,4 +7,15 @@ try {
 } catch (error) {
     next(error);
 }
+
 };
+
+export const getJobs = async (req, res, next) => {
+    try {
+      const jobs = await Job.find().sort({ createdAt: -1 });
+      res.status(200).json(jobs);
+    } catch (error) {
+      next(error);
+    }
+  };
+  

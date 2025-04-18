@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useSelector } from 'react-redux';
 
 export default function CreateJob() {
-  const { currentAlumni } = useSelector(state => state.alumni);
+  const { currentUser } = useSelector(state => state.alumni);
 
   const [formData, setFormData] = useState({
     position: "",
@@ -25,8 +25,10 @@ export default function CreateJob() {
   };
 
   const handleSubmit = async (e) => {
-    if(!currentAlumni) console.log("not found")
+    
     e.preventDefault();
+    if(!currentUser || !currentUser._id) console.log("not founf")
+    console.log(currentUser._id)
     try {
       setLoading(true);
       setError(false);
@@ -34,11 +36,11 @@ export default function CreateJob() {
       const res = await fetch('/api/job/create', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json', // ✅ fixed typo
         },
         body: JSON.stringify({
           ...formData,
-          userRef: currentAlumni._id, 
+          userRef: currentUser._id, // ✅ fixed typo
         }),
       });
 
@@ -47,15 +49,6 @@ export default function CreateJob() {
 
       if (data.success === false) {
         setError(data.message);
-      } else {
-        setFormData({
-          position: "",
-          company: "",
-          workType: "",
-          experience: "",
-          salary: "",
-          location: "",
-        });
       }
 
     } catch (error) {

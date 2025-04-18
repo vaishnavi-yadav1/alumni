@@ -11,6 +11,7 @@ import SignUp from "./pages/SignUp.jsx";
 import Header from "./components/Header.jsx";
 import Donate from "./pages/Donate.jsx";
 import CreateJob from "./pages/CreateJob.jsx";
+import JobListings from "./pages/JobListings.jsx"
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/donate" element={<Donate />} />
+        <Route path="/show-job" element={<JobListings/>} />
         <Route element={<PrivateRoute />}>
           <Route path="/profile" element={<Profile />} />
           <Route path="/create-job" element={<CreateJob/>}/>
