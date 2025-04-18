@@ -11,6 +11,7 @@ export default function CreateJob() {
     experience: "",
     salary: "",
     location: "",
+    lastDateToApply: "",  // New field for the last date to apply
   });
 
   const [error, setError] = useState(false);
@@ -25,7 +26,7 @@ export default function CreateJob() {
   };
 
   const handleSubmit = async (e) => {
-    if(!currentAlumni) console.log("not found")
+    if(!currentAlumni) console.log("not found");
     e.preventDefault();
     try {
       setLoading(true);
@@ -48,6 +49,7 @@ export default function CreateJob() {
       if (data.success === false) {
         setError(data.message);
       } else {
+        // Reset form fields after successful job posting
         setFormData({
           position: "",
           company: "",
@@ -55,6 +57,7 @@ export default function CreateJob() {
           experience: "",
           salary: "",
           location: "",
+          lastDateToApply: "",  // Reset last date field
         });
       }
 
@@ -125,6 +128,15 @@ export default function CreateJob() {
           <option value="On-site">On-site</option>
           <option value="Hybrid">Hybrid</option>
         </select>
+        <input
+          type="date"
+          placeholder="Last Date to Apply"
+          className="border p-3 rounded-lg"
+          id="lastDateToApply"
+          required
+          onChange={handleChange}
+          value={formData.lastDateToApply}
+        />
         <button
           className="p-3 bg-slate-700 text-white rounded-lg uppercase hover:opacity-95"
         >
@@ -135,3 +147,4 @@ export default function CreateJob() {
     </main>
   );
 }
+
