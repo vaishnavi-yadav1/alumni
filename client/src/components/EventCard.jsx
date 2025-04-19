@@ -39,7 +39,7 @@ export default function EventCard({ event, onDelete }) {
           day: 'numeric',
         })}
       </p>
-      <p className="text-gray-710">
+      <p className="text-gray-700">
         <strong>Location:</strong> {event.location}
       </p>
       <p className="text-gray-600 mt-2">{event.description}</p>
