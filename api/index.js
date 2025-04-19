@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 import authRouter from './routes/auth.route.js'
 import userRouter from './routes/alumni.route.js';
 import jobRouter from './routes/job.route.js'
-import donationRouter from './routes/donation.route.js'
+import eventRouter from './routes/event.route.js'
 import cookieParser  from 'cookie-parser';
 dotenv.config();
 
@@ -21,7 +21,7 @@ app.use(cookieParser());
 app.use('/api/user',userRouter);
 app.use('/api/auth',authRouter);
 app.use('/api/job',jobRouter);
-app.use('/api/donate',donationRouter)
+app.use('/api/event',eventRouter);
 app.listen(3000, () => {
     console.log('server running on port 3000!');
 });

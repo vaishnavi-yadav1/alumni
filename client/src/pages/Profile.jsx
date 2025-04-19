@@ -36,7 +36,6 @@ export default function Profile() {
   const [updateError, setUpdateError] = useState("");
   const [success, setSuccess] = useState(false);
 
-  // 🔹 Handle Image Upload
   const handleImageChange = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -67,17 +66,15 @@ export default function Profile() {
     }
   };
 
-  // 🔹 Handle Input Changes
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // 🔹 Handle Profile Update
   const handleUpdate = async (e) => {
     e.preventDefault();
     setUpdateError("");
     setSuccess(false);
-    dispatch(updateUserStart()); // Start loading state
+    dispatch(updateUserStart());
 
     try {
       const response = await fetch(`/api/user/update/${currentAlumni._id}`, {
@@ -93,18 +90,19 @@ export default function Profile() {
 
       if (!response.ok) throw new Error(data.message || "Update failed.");
 
-      dispatch(updateUserSuccess(data)); // Update Redux store
+      dispatch(updateUserSuccess(data));
       setSuccess("Profile updated successfully!");
     } catch (error) {
       dispatch(updateUserFailure(error.message));
       setUpdateError(error.message || "Something went wrong.");
     }
   };
+
   const handleDeleteUser = async () => {
     try {
       dispatch(deleteUserStart());
       const res = await fetch(`/api/user/delete/${currentAlumni._id}`, {
-        method: "Delete",
+        method: "DELETE",
       });
       const data = await res.json();
       if (data.success === false) {
@@ -116,6 +114,7 @@ export default function Profile() {
       dispatch(deleteUserFailure(error.message));
     }
   };
+
   const handleSignOut = async () => {
     try {
       dispatch(signOutUserStart());
@@ -130,6 +129,7 @@ export default function Profile() {
       dispatch(signOutUserFailure(error.message()));
     }
   };
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-[#F5ECE1] text-[#3D2B1F] p-4">
       <div className="bg-white/80 backdrop-blur-lg p-6 rounded-xl shadow-lg w-full max-w-lg border border-[#C8A27C]">
@@ -166,8 +166,6 @@ export default function Profile() {
               }`}
             />
           </div>
-
-          {/* Error Message for Image Upload */}
           {updateError && (
             <p className="text-red-600 mt-2 text-sm">{updateError}</p>
           )}
@@ -212,12 +210,21 @@ export default function Profile() {
           >
             {loading ? "Updating..." : "Update Profile"}
           </button>
+
           {/* Create Job Button */}
           <Link
             to="/create-job"
             className="bg-[#6D4C41] text-white rounded-lg p-3 text-center uppercase hover:bg-[#5C4033] transition"
           >
             Create Job
+          </Link>
+
+          {/* ➕ Create Event Button */}
+          <Link
+            to="/create-event"
+            className="bg-[#6D4C41] text-white rounded-lg p-3 text-center uppercase hover:bg-[#5C4033] transition"
+          >
+            Create Event
           </Link>
 
           {/* Success/Error Messages */}
@@ -244,3 +251,4 @@ export default function Profile() {
     </div>
   );
 }
+

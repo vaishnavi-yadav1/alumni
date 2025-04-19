@@ -6,7 +6,7 @@ import Profile from "./pages/Profile.jsx";
 import ContactUs from "./pages/ContactUs.jsx";
 import Directory from "./pages/Directory.jsx";
 import SignIn from "./pages/SignIn.jsx";
-import Event from "./pages/Event.jsx";
+import CreateEvent from "./pages/CreateEvent.jsx";
 import SignUp from "./pages/SignUp.jsx";
 import Header from "./components/Header.jsx";
 import Donate from "./pages/Donate.jsx";
@@ -23,7 +23,7 @@ function App() {
         <Route path="/contactus" element={<ContactUs />} />
         <Route path="/directory" element={<Directory />} />
         <Route path="/search" element={<Directory />} />
-        <Route path="/event" element={<Event />} />
+        <Route path="/create-event" element={<CreateEvent />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/donate" element={<Donate />} />
