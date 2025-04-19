@@ -12,6 +12,7 @@ import Header from "./components/Header.jsx";
 import Donate from "./pages/Donate.jsx";
 import CreateJob from "./pages/CreateJob.jsx";
 import JobListings from "./pages/JobListings.jsx"
+import  ShowEvent from "./pages/ShowEvent.jsx"
 
 function App() {
   return (
@@ -28,6 +29,8 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/donate" element={<Donate />} />
         <Route path="/show-job" element={<JobListings/>} />
+        <Route path="/show-events" element={<ShowEvent />} />
+
         <Route element={<PrivateRoute />}>
           <Route path="/profile" element={<Profile />} />
           <Route path="/create-job" element={<CreateJob/>}/>

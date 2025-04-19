@@ -17,36 +17,37 @@ export default function EventCard({ event, onDelete }) {
       });
 
       const data = await res.json();
-
       if (res.ok) {
-        onDelete(event._id);
+        onDelete(event._id); // Notify parent to update UI
       } else {
-        alert(data.message || "Failed to delete event.");
+       console.log(data.message);
       }
     } catch (error) {
-      alert("Error deleting event: " + error.message);
+    console.log(error.message);
     }
   };
 
   return (
-    <div className="border p-4 rounded-lg shadow-md bg-white relative">
-      <h3 className="text-xl font-bold mb-2">{event.title}</h3>
-      <p className="text-gray-700">
-        <strong>Date:</strong>{" "}
-        {new Date(event.dateTime).toLocaleDateString(undefined, {
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric',
-        })}
-      </p>
-      <p className="text-gray-700">
-        <strong>Location:</strong> {event.location}
-      </p>
-      <p className="text-gray-600 mt-2">{event.description}</p>
+    <div className="border p-4 rounded-lg shadow-md bg-gray-50 relative">
+      <h3 className="text-lg font-semibold">{event.title}</h3>
+      <p><strong>Date:</strong> {new Date(event.dateTime).toLocaleDateString()}</p>
+      <p><strong>Location:</strong> {event.location}</p>
+      <p className="text-sm text-gray-600 mt-2">{event.description}</p>
 
+      {/* View link (optional, if you want a link to event details) */}
+      <a
+        href={`https://www.google.com/search?q=${event.title}+${event.location}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-blue-600 underline mt-2 block"
+      >
+        View Details
+      </a>
+
+      {/* Show delete button only if current user is the owner */}
       {currentAlumni?._id === event.createdBy && (
         <button
-          className="absolute top-2 right-2 text-red-600 hover:text-red-800"
+          className="absolute top-2 right-2 text-red-500 hover:text-red-700"
           onClick={handleDelete}
         >
           Delete
