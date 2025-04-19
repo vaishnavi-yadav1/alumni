@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from'mongoose';
 
 const donationSchema = new mongoose.Schema({
   user: {
@@ -10,21 +10,12 @@ const donationSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  transactionId: {
-    type: String, // UPI transaction reference ID
-    required: false,
-  },
-  paymentStatus: {
-    type: String,
-    enum: ["Pending", "Success", "Failed"],
-    default: "Pending",
-  },
   donationDate: {
     type: Date,
     default: Date.now,
   },
 });
 
-const Donation = mongoose.model("Donation", donationSchema);
 
-module.exports = Donation;
+const Donation = mongoose.model("Donation", donationSchema);
+export default Donation;
