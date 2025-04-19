@@ -20,16 +20,21 @@ const JobListingsPage = () => {
     }
   };
 
+  // Delete job post
+  const handleDeleteJob = (id) => {
+    setJobs((prevJobs) => prevJobs.filter((job) => job._id !== id));
+  };
+
   // useEffect to fetch data on page load
   useEffect(() => {
-    fetchJobs(); // Fetch jobs without query params
+    fetchJobs();
   }, []);
 
   return (
     <main className="p-3 max-w-6xl mx-auto">
       <div className="flex flex-wrap gap-4">
         {jobs.length > 0 ? (
-          jobs.map((job) => <JobCard key={job._id} job={job} />)
+          jobs.map((job) => <JobCard key={job._id} job={job} onDelete={handleDeleteJob} />)
         ) : (
           <p>No jobs found.</p>
         )}

@@ -1,55 +1,61 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React from 'react';
+import { useSelector } from 'react-redux';
 
-const JobCard = ({ job }) => {
-  const { position, company, workType, experience, salary, location, lastDateToApply } = job;
+export default function JobCard({ job, onDelete }) {
+  const { currentAlumni } = useSelector((state) => state.alumni);
 
-  // Format the last date to apply
-  const formattedDate = new Date(lastDateToApply).toLocaleDateString("en-IN", {
-    weekday: 'short',
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-  });
+  const handleDelete = async () => {
+    if (!window.confirm("Are you sure you want to delete this job listing?")) return;
 
-  // Create a dynamic URL using company and position
-  const jobDetailsLink = `/jobs/${company.toLowerCase().replace(/\s+/g, '-')}/${position.toLowerCase().replace(/\s+/g, '-')}`;
+    try {
+      const res = await fetch(`/api/job/delete/${job._id}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${currentAlumni.token}`, // if token-based
+        },
+      });
 
-  // Create a Google search link using company and position
-  const googleSearchLink = `https://www.google.com/search?q=${encodeURIComponent(position)}+at+${encodeURIComponent(company)}`;
+      const data = await res.json();
+
+      if (res.ok) {
+        onDelete(job._id); // Notify parent to update UI
+      } else {
+        alert(data.message || "Failed to delete job.");
+      }
+    } catch (error) {
+      alert("Error deleting job: " + error.message);
+    }
+  };
 
   return (
-    <div className="border p-4 rounded-lg shadow-md bg-white">
-      <h3 className="text-xl font-semibold">{position}</h3>
-      <p className="text-gray-500">{company}</p>
-      <p className="text-gray-600">{location}</p>
-      <p className="text-gray-600">Experience: {experience} years</p>
-      <p className="text-gray-600">Salary: ₹{salary}</p>
-      <p className="text-gray-600">Work Type: {workType}</p>
+    <div className="border p-4 rounded-lg shadow-md bg-gray-50 relative">
+      <h3 className="text-lg font-semibold">{job.position} at {job.company}</h3>
+      <p>Location: {job.location}</p>
+      <p>Work Type: {job.workType}</p>
+      <p>Experience: {job.experience} years</p>
+      <p>Salary: ₹{job.salary}</p>
+      <p className="text-sm text-gray-600">Last date to apply: {new Date(job.lastDate).toLocaleDateString()}</p>
 
-      {/* Display Last Date to Apply */}
-      <p className="text-red-500 font-semibold mt-2">
-        Last Date to Apply: {formattedDate}
-      </p>
+      {/* View link */}
+      <a
+        href={`https://www.google.com/search?q=${job.company}+${job.position}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-blue-600 underline mt-2 block"
+      >
+        View Details
+      </a>
 
-      <div className="mt-4">
-     
-        <div className="mt-2">
-          {/* Google Search Link */}
-          <a
-            href={googleSearchLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-blue-500 hover:underline"
-          >
-            view details
-          </a>
-        </div>
-      </div>
+      {/* Show delete button only if current user is the owner */}
+      {currentAlumni?._id === job.userRef && (
+        <button
+          className="absolute top-2 right-2 text-red-500 hover:text-red-700"
+          onClick={handleDelete}
+        >
+          Delete
+        </button>
+      )}
     </div>
   );
-};
-
-export default JobCard;
-
-
+}
