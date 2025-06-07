@@ -57,6 +57,7 @@ function escapeRegExp(string) {
 export const allAlumni = async (req, res, next) => {
     try {
         const alumni = await Alumni.find().select('name company experience industry branch email');
+          console.log("Alumni fetched from DB:", alumni);
         res.status(200).json(alumni);
     } catch (error) {
         next(error);

@@ -29,7 +29,7 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/donate" element={<Donate />} />
         <Route path="/show-job" element={<JobListings/>} />
-        <Route path="/show-events" element={<ShowEvent />} />
+        <Route path="/event" element={<ShowEvent />} />
 
         <Route element={<PrivateRoute />}>
           <Route path="/profile" element={<Profile />} />
