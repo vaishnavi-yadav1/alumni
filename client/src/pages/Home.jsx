@@ -97,7 +97,7 @@ const HomePage = () => {
               <h3 className="text-xl font-semibold mb-1 text-[#111827]">{job.position} at {job.company}</h3>
               <p className="text-sm text-gray-500">Location: {job.location}</p>
               <p className="text-sm text-gray-500">Salary: ₹{job.salary}</p>
-              <p className="text-sm text-gray-500">Last Date: {new Date(job.lastDate).toLocaleDateString()}</p>
+          { /* <p className="text-sm text-gray-500">Last Date: {new Date(job.lastDate).toLocaleDateString()}</p>*/}
             </div>
           ))}
         </div>
