@@ -35,7 +35,7 @@ export default function JobCard({ job, onDelete }) {
       <p>Work Type: {job.workType}</p>
       <p>Experience: {job.experience} years</p>
       <p>Salary: ₹{job.salary}</p>
-     {/* <p className="text-sm text-gray-600">Last date to apply: {new Date(job.lastDate).toLocaleDateString()}</p>*/}
+   
 
       {/* View link */}
       <a
