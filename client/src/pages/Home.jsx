@@ -47,7 +47,7 @@ const HomePage = () => {
       {/* Gallery Section */}
       <section className="p-10 bg-[#F3F4F6]">
         <h2 className="text-3xl font-bold text-center mb-8 text-[#111827] tracking-tight">
-          Campus & Event Highlights
+          Campus Gallery
         </h2>
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {[college1, college2, studentWalking].map((image, idx) => (
@@ -66,23 +66,27 @@ const HomePage = () => {
       </section>
 
       {/* Upcoming Events */}
-      <section className="p-10 bg-white">
-        <h2 className="text-3xl font-bold text-center mb-6 text-[#111827] tracking-tight">Upcoming Events</h2>
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {events.map((event) => (
-            <div key={event._id} className="p-6 bg-[#F9FAFB] rounded-lg shadow-md border border-[#E5E7EB]">
-              <h3 className="text-xl font-semibold mb-1 text-[#111827]">{event.title}</h3>
-              <p className="text-sm mb-2 text-gray-500">{new Date(event.date).toLocaleDateString()}</p>
-              <p className="text-sm text-[#374151]">{event.description?.slice(0, 100)}...</p>
-            </div>
-          ))}
-        </div>
-        <div className="text-center mt-6">
-          <Link to="/event" className="text-[#2563EB] font-medium hover:underline">
-            Show More Events
-          </Link>
-        </div>
-      </section>
+{/* Upcoming Events */}
+<section className="p-10 bg-white">
+  <h2 className="text-3xl font-bold text-center mb-6 text-[#111827] tracking-tight">Upcoming Events</h2>
+  <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    {events.map((event) => (
+      <div key={event._id} className="p-6 bg-[#F9FAFB] rounded-lg shadow-md border border-[#E5E7EB]">
+        <h3 className="text-xl font-semibold mb-1 text-[#111827]">{event.title}</h3>
+        <p className="text-sm mb-2 text-gray-500">
+          {new Date(event.dateTime).toLocaleDateString()}{" "}
+          {new Date(event.dateTime).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+        </p>
+        <p className="text-sm text-[#374151]">{event.description?.slice(0, 100)}...</p>
+      </div>
+    ))}
+  </div>
+  <div className="text-center mt-6">
+    <Link to="/event" className="text-[#2563EB] font-medium hover:underline">
+      Show More Events
+    </Link>
+  </div>
+</section>
 
       {/* Job Opportunities */}
       <section className="p-10 bg-white">

@@ -6,7 +6,7 @@ const alumniSchema= new mongoose.Schema(
         email:{type:String,required:true,unique:true},
         graduationYear:{type:Number,required:true},
         password: { type: String, required: true },
-        branch:{type:String,required:true},
+        department:{type:String,required:true},
         currentJob:{type:String},
         company:{type:String},
         industry:{type:String},

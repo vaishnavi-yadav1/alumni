@@ -4,14 +4,13 @@ import EventCard from '../components/EventCard.jsx';
 export default function ShowEvents() {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null); // Error handling state
+  const [error, setError] = useState(null);
 
   // Fetch events data
   const fetchEvents = async () => {
     try {
       const response = await fetch('/api/event/all');
       
-      // Check if response is valid JSON
       const contentType = response.headers.get('content-type');
       if (!response.ok || !contentType || !contentType.includes('application/json')) {
         throw new Error('Unexpected response from the server');
@@ -32,7 +31,6 @@ export default function ShowEvents() {
     setEvents((prevEvents) => prevEvents.filter((event) => event._id !== id));
   };
 
-  // useEffect to fetch events on page load
   useEffect(() => {
     fetchEvents();
   }, []);
@@ -48,7 +46,7 @@ export default function ShowEvents() {
       ) : events.length === 0 ? (
         <p className="text-center text-lg">No events available right now.</p>
       ) : (
-        <div className="flex flex-wrap gap-4">
+        <div className="flex flex-wrap gap-4 justify-center">
           {events.map((event) => (
             <EventCard key={event._id} event={event} onDelete={handleDeleteEvent} />
           ))}
@@ -57,4 +55,3 @@ export default function ShowEvents() {
     </main>
   );
 }
-
