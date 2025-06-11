@@ -80,7 +80,7 @@ export default function About() {
           <li>Ranked among the top 10 engineering colleges in the state.</li>
           <li>Over 95% placement rate across all departments.</li>
           <li>Accredited with NAAC ‘A+’ grade and ISO 9001 certification.</li>
-          <li>More than 200 research publications by faculty.</li>
+          <li>More than 250 research publications by faculty.</li>
         </ul>
       </section>
     </div>
